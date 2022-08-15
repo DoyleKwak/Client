@@ -1,0 +1,69 @@
+<html>
+    <head>
+        <title>Hello</title>
+        <link href="./style.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        
+
+        <script>
+
+            const init = ()=>{
+                axios.get('http://localhost:3000/language_all')
+                .then(result=>{
+
+                    const lan_box = document.getElementById('back');
+
+                    result.data.map(c=>{
+                        const input = document.createElement('input');
+                        input.type = 'button';
+                        input.value = c.language;
+                        input.addEventListener('click',()=>{
+                            handleClick(c.langauge,c.msg);
+                        })
+
+                        lan_box.appendChild(input);
+                    })
+
+                })
+            }      
+
+            function handleClick(languageCheck,msg){
+               
+                axios.post('http://localhost:3000/language',{lan:languageCheck,msg:msg})
+                .then((result)=>{
+                    document.getElementById("msg").innerHTML = result.data;
+                });
+
+            }
+
+            const goToInsert = ()=>{
+                location.href = 'insert.html';
+            }
+
+        </script>        
+    </head>
+
+    <body onload="init();">
+        <div id="back">
+            <div id="msg">Select Language</div>
+            <input type="button" value="Create" onclick="goToInsert();">
+            <input type="button" value="Delete" onclick="goToDel();">
+            <input type="button" value="Update" onclick="goToUpdate();"><br>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </body>
+</html>

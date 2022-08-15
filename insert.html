@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <title>Insert Language</title>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script>
+            const submit = ()=>{
+                const lan = document.getElementById('lan').value;
+                const msg = document.getElementById('msg').value;
+
+                axios.post('http://localhost:3000/insert',{lan:lan,msg:msg})
+                .then(result=>{
+                    if(result.data==='ok'){
+                        document.getElementById('reg_msg').innerHTML = '登録しました。';
+                    }
+                })
+            }
+
+
+
+        </script>
+    </head>
+
+    <body>
+        Language:<input type="text" id="lan">
+        Text:<input type="text" id="msg">
+        <div id="reg_msg"></div><br>
+        <input type="button" value="Submit" id="reg" onclick="submit();">
+        <input type="button" value="Home" onclick="location.href='app.html'">
+
+    </body>
+</html>
