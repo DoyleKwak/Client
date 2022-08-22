@@ -1,0 +1,70 @@
+<html>
+    <head>
+        <title>修正</title>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        
+        <script>
+
+            const language_specific = ()=>{
+                const lan= document.getElementById('list_select').value;
+                
+                axios.post('http:localhost:3000/search',{lan:lan})
+                .then(result=>{
+                    console.log(result.data);
+                    document.getElementById('listMsg').innerHTML = result.data;                    
+                })
+
+            }
+
+            const init = ()=>{
+                axios.get('http:localhost:3000/language_all')
+                .then(result=>{
+                    const list = document.getElementById('list');
+                    const select = document.createElement('select');
+                    
+                    select.id = 'list_select';
+                    
+                    result.data.map(c=>{
+                        const option = document.createElement('option');
+                        option.innerHTML = c.language;
+                        
+                        select.appendChild(option);
+                        
+                    })
+                    list.appendChild(select);
+
+                })
+                
+            }
+
+            const update = ()=>{
+                const lan = document.getElementById('list_select').value;
+                const msg = document.getElementById('msg').value;
+
+                axios.post('http:localhost:3000/update',{lan:lan,msg:msg})
+                .then(result=>{
+                    if(result.data==='ok'){
+                        document.getElementById('listMsg').innerHTML = '修正完了しました';  
+                    }else{
+                        document.getElementById('listMsg').innerHTML = '修正失敗しました';
+                    }
+                                                      
+                })
+
+                
+            }
+
+        </script>
+    </head>
+
+    <body onload="init();">
+        <div id="list" onchange="language_specific();"></div>
+        <div id="listMsg">안녕하세요</div>
+
+        修正メッセージ<input type="text" id="msg">
+        <input type="button" value="修正" onclick="update();"><br>
+        <input type="button" value="ホームへ" onclick="location.href='app.html'">
+
+
+    </body>
+</html>
